@@ -5,13 +5,23 @@
   "author": "Powder Power",
   "license": "UNLICENSED",
   "scripts": {
+    "build": "webpack --mode=development",
+    "watch": "webpack --mode=development --watch --progress --hide-modules",
+    "prod": "webpack -p",
     "test": "jest"
   },
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "jquery": "^3.3.1",
+    "webpack": "^4.26.0",
+    "webpack-cli": "^3.1.2"
   },
   "jest": {
-    "moduleNameMapper":{"@/(.*)$":"<rootDir>/resources/assets/js/components/$1"},
-    "testMatch":["<rootDir>/tests/Jest/*.js"]
+    "moduleNameMapper": {
+      "@/(.*)$": "<rootDir>/resources/assets/js/components/$1"
+    },
+    "testMatch": [
+      "<rootDir>/tests/Jest/*.js"
+    ]
   }
 }
