@@ -1,0 +1,17 @@
+{
+  "name": "laravel_clean",
+  "version": "1.0.0",
+  "description": "laravel 5.4 with custom webpack",
+  "author": "Powder Power",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "jest": {
+    "moduleNameMapper":{"@/(.*)$":"<rootDir>/resources/assets/js/components/$1"},
+    "testMatch":["<rootDir>/tests/Jest/*.js"]
+  }
+}
