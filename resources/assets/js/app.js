@@ -1,6 +1,7 @@
-var a = require('jquery');
+import '../scss/app.scss';
+import  { a, token } from './components/config';
 
 (function()
 {
-    console.log('ok');
+    console.log('ok', token, a);
 })();

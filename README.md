@@ -1,1 +1,1 @@
-#Laravel stock
+Laravel 5.4 without laravel-mix, only webpack
