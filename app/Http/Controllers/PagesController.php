@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PagesController extends Controller
 {
@@ -107,6 +108,52 @@ class PagesController extends Controller
             'self-teaching' => '/[a-zA-Z]+-[a-zA-Z]+/',
             '<span></span>' => '/<(?<tag>\w+)>(?<content>.*?)<\/\1>/gi'
         ];
+    }
+
+    private function echoOOP()
+    {
+        return 'hi there';
+    }
+
+    private static function echoStaticOOP()
+    {
+        return 'hi static therer';
+    }
+
+    public function OOP()
+    {
+        // статические методы не имею $this и могут вызывать только статичные методы и переменные, используется self::method();
+        // вызов переменной класса вызывается через __get, установка через __set, вызов метода __call, эти прозрачные методы можно перехыватывать и писать обработчик
+        // clone - клонирвоание объекта, при $a = Cabon::now() и $b = $a, и $b->addDay(), то $a становится тем же самым что и $b, при клонировании вызывается прозрачный метод __clone
+        // но, $a = 4 $b = $a $b++, то $a = 4 $b = 5. Чтобы $a == $b => $b = &$a
+        // parent::__construct(); вызов конструктора родительского класса, полученного через ChildClass extends ParentClass
+        /**
+         * public function __construct($arg)
+         * {
+         *      parent::__construct(basename($arg), $arg); // переопределение родительской переменной
+         * }
+         */
+        // public final - запретить переназначение элемента родительского класса
+        // final class ClassName {} - запретить наследование класса
+        // абстрактный класс - класс, который имеет все возможные функции, но конкретное назначение не определено
+
+        $firstDate = Carbon::now();
+        $seconDate = clone $firstDate;
+        echo $firstDate->format('d-m-y') . '<br>';
+        echo $seconDate->format('d-m-y') . '<br>';
+        $seconDate->addDay();
+        echo $firstDate->format('d-m-y') . '<br>';
+        echo $seconDate->format('d-m-y') . '<br>';
+        echo '<br>';
+
+        /** внутри можно вызывать 4-мя способами */
+        // parenrt::method();
+        echo $this->echoOOP() . '<br>';
+        echo self::echoOOP() . '<br>';
+        echo PagesController::echoOOP() . '<br>';
+        /** статик можно вызвать двумя способами */
+        echo self::echoStaticOOP() . '<br>';
+        echo static::echoStaticOOP() . '<br>';
     }
 
     public function index()
