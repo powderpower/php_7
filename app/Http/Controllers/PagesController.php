@@ -122,7 +122,7 @@ class PagesController extends Controller
 
     public function OOP()
     {
-        // статические методы не имею $this и могут вызывать только статичные методы и переменные, используется self::method();
+        // статические методы не имеют $this и могут вызывать только статичные методы и переменные, используется self::method();
         // вызов переменной класса вызывается через __get, установка через __set, вызов метода __call, эти прозрачные методы можно перехыватывать и писать обработчик
         // clone - клонирвоание объекта, при $a = Cabon::now() и $b = $a, и $b->addDay(), то $a становится тем же самым что и $b, при клонировании вызывается прозрачный метод __clone
         // но, $a = 4 $b = $a $b++, то $a = 4 $b = 5. Чтобы $a == $b => $b = &$a
@@ -135,7 +135,6 @@ class PagesController extends Controller
          */
         // public final - запретить переназначение элемента родительского класса
         // final class ClassName {} - запретить наследование класса
-        // абстрактный класс - класс, который имеет все возможные функции, но конкретное назначение не определено
 
         $firstDate = Carbon::now();
         $seconDate = clone $firstDate;
@@ -154,6 +153,122 @@ class PagesController extends Controller
         /** статик можно вызвать двумя способами */
         echo self::echoStaticOOP() . '<br>';
         echo static::echoStaticOOP() . '<br>';
+
+        /** АБСТРАКТНЫЕ КЛАССЫ 
+         * abstract class ClassName {} абстрактный класс - класс, который имеет все возможные методы, но тело метода не определено.
+         * Не может быть вызыван явно, может только наследоваться.
+         * Абстрактный метод - это метод который не имеет конкретной реализации в классе, тело метода должно быть реализовано в наследующем классе.
+         * Класс содержащий хоть один абстрактный метод, становится абстрактным
+         * принцип абстрактного метода
+         * 
+         * abstract class Parent
+         * {
+         *      abstract function doSome($arg); // объявляем, что она должна быть
+         * }
+         * 
+         * class Child extends Parent
+         * {
+         *      public function doSome($arg)
+         *      {
+         *          return 'some function with arg ' . $arg . ' is done';
+         *      }
+         * }
+         * 
+         * class ActionClass class extends Child
+         * {
+         *      echo self::doSome('Andy');
+         * }
+         * 
+         * ChilClass instanceof ParentClass - проверка является ли первый класс экземпляром второго
+         * Класс не может наследовать более одного абстарктного класса
+        */
+
+        /** ИНТЕРФЕЙСЫ
+         * Контструкция, которая определяет список методов и свойств доступа (protected и public), присутствующих в классе, наследующем интерфейс
+         * Если класс реализует не все методы интерфейса, он становится абстракнтым и должен быть обозначен как abstract
+         * Интерфейс может наследовать интерфейс
+         * interface Voice
+         * {
+         *      public function voiceRealize();
+         * }
+         * 
+         * interface Watch
+         * {
+         *      public function watchRealize();
+         * }
+         * 
+         * interface Blink extends Watch
+         * {
+         *      public function blinkRealize();
+         * }
+         * 
+         * Класс может наследовать несколько интерфейсов
+         * class Cat implements Voice, Blink
+         * {
+         *      public function voiceRealize()
+         *      {
+         *          return 'meow';
+         *      }
+         *      
+         *      public function watchRealize()
+         *      {
+         *          return 'wacth direct';
+         *      }
+         * 
+         *      public function blinkRealize()
+         *      {
+         *          return 'eyelids down';
+         *          return 'eyelids up';
+         *      }
+         * }
+         * 
+         * Cat instanceof Blink - проверка является класс экземпляром интерфейса
+         * Класс можно расширить только тем интерфейсом, который не расширяет интерфейс уже указанный как расширение
+         */
+        
+        /** ТРЕЙТЫ
+         * Конструкция, которая включает в класс класс.
+         * trait Voice
+         * {
+         *      public function voiceRealize()
+         *      {
+         *          echo 'meow';
+         *      }
+         * }
+         * 
+         * trait Blink
+         * {
+         *      public function watchRealize()
+         *      {
+         *          return 'wacth direct';
+         *      }
+         * 
+         *      public function blinkRealize()
+         *      {
+         *          return 'eyelids down';
+         *          return 'eyelids up';
+         *      } 
+         * }
+         * 
+         * class Cat
+         * {
+         *      use Voice, Blink
+         *      если нужно какой-то метод переназвать
+         *      {
+         *          Blink::voiceRealize() as sayRealize;
+         *          если встречается один и тот-же метод в двух трейтах,
+         *          можно указать кто главнее
+         *          Blink::voiceRealize() insteadof OtherBlink;
+         *      }
+         *      
+         *      public $color = 'brown';
+         * }
+         * 
+         * $cat = new Cat();
+         * $cat->voiceRealize();
+         * $cat->watchRealize();
+         * $cat->blinkRealize();
+         */
     }
 
     public function index()
