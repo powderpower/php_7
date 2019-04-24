@@ -271,6 +271,16 @@ class PagesController extends Controller
          */
     }
 
+    public function getError()
+    {
+        /** Генерация ошибок */
+        // debug_backtrace() - листинг ошибки
+        // можно писать свои обработчики ошибок
+        $errorMessage = 'Hashing instruction do not enter valid value in validator specification d9cb7f8697ae7d5b9a4d2f96891a1b78';
+        throw new \Exception($errorMessage);
+        return trigger_error($errorMessage);
+    }
+    
     public function index()
     {
         return view('home');
