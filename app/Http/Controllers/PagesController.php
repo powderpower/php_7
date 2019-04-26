@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use DateTime;
+use DateInterval;
+use DateTimeZone;
 
 class PagesController extends Controller
 {
@@ -279,6 +282,21 @@ class PagesController extends Controller
         $errorMessage = 'Hashing instruction do not enter valid value in validator specification d9cb7f8697ae7d5b9a4d2f96891a1b78';
         throw new \Exception($errorMessage);
         return trigger_error($errorMessage);
+    }
+
+    public function phpClasses()
+    {
+        /** Предопределенные классы php */
+        // dir() - читает каталог, возвращает объект или null, методы read(), rewind() - установка указателя в начало каталога, close()
+        
+        /** Дата */
+        $currentDate = new DateTime();
+        $currentDate->setTimezone(new DateTimeZone('Europe/Moscow'));
+        $afterDate = (clone $currentDate)->add(new DateInterval('P3D'));
+        $parsedDate = (clone $currentDate)->createFromFormat('d-m-y h:i:s', '12-04-19 00:00:00');
+        $timeDiff = $currentDate->diff($afterDate);
+        //Для поддержки русских дней и месяцев, нужно использовать/написать дополнительный парсер
+        dd($currentDate->format('d-M-y'), $afterDate, $timeDiff->format('%d'), $parsedDate);
     }
     
     public function index()
